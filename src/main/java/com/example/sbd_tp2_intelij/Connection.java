@@ -101,4 +101,25 @@ public class Connection {
 		return parques;
 	}
 
-}
+
+
+	public boolean executaQueryBool(String query) {
+
+		try (Statement stmt = con.createStatement()) {
+			int dadosAlt = stmt.executeUpdate(query);
+			if (dadosAlt > 0) {
+				System.out.println("Query executada com sucesso. Nº de campos alterados " + dadosAlt);
+				return true;
+			} else {
+				System.out.println("Query executada, mas nenhum campo foi alterado");
+				return false;
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			System.out.println("Erro de execução: " + ex.getMessage());
+			return false;
+		}
+	}
+
+
+	}
