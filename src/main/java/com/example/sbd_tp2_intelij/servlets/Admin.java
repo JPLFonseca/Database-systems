@@ -5,6 +5,7 @@ package com.example.sbd_tp2_intelij.servlets;
 import com.example.sbd_tp2_intelij.Connection;
 import com.example.sbd_tp2_intelij.Parque;
 import com.example.sbd_tp2_intelij.tipoVeiculo;
+import com.example.sbd_tp2_intelij.servlets.AdminManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,6 +17,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import com.example.sbd_tp2_intelij.database.Configura;
+import com.example.sbd_tp2_intelij.database.Manipula;
+
 
 @WebServlet("/Admin")
 public class Admin extends HttpServlet {
@@ -36,8 +40,37 @@ public class Admin extends HttpServlet {
         String dataNascimento = req.getParameter("dataNascimento");
         String reputacao = req.getParameter("reputacao");
 
+        String txt = "";
 
-        req.getRequestDispatcher("/administrador.jsp").forward(req, resp);
+        Manipula dados = new Manipula(new Configura());
+
+        if(comando != null) {
+
+
+        if(comando.equals("A")){ // atualiazar info pessoal
+
+            String[] array = new String[]{nif,nomeCliente,telemovel,morada,prefLinguistica};
+
+            boolean caCliente = AdminManager.gerirClientePessoal(dados,array);
+
+            if(caCliente) {
+                txt+="<h1>Operação realizada com sucesso!</h1>";
+            }
+            else {
+                txt+="<h1>Erro a realizar a operação!</h1>";
+            }
+
+        }
+
+        System.out.println(txt);
+        dados.desligar();
+
+        resp.getWriter().write(txt);
+        } else{
+            req.getRequestDispatcher("/administrador.jsp").forward(req, resp);
+        }
+
+
     }
 
     @Override
