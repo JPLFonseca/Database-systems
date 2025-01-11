@@ -49,7 +49,7 @@ public class Admin extends HttpServlet {
 
         if(comando.equals("A")){ // atualiazar info pessoal
 
-            String[] array = new String[]{nif,nomeCliente,telemovel,morada,prefLinguistica};
+            String[] array = new String[]{nif,nomeCliente,telemovel,morada,prefLinguistica,nCartaConducao,dataEmissao,dataNascimento,dataValidade,reputacao};
 
             boolean caCliente = AdminManager.gerirClientePessoal(dados,array);
 
@@ -73,22 +73,22 @@ public class Admin extends HttpServlet {
 
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        String query = req.getParameter("query");
-        Connection dbConnection = new Connection();
-        boolean result = dbConnection.executaQueryBool(query);
-
-
-        if (result) {
-
-            resp.getWriter().write("Executou com sucesso");
-            req.getRequestDispatcher("/administrador.jsp").forward(req, resp);
-        } else {
-
-            resp.getWriter().write("Erro");
-            req.getRequestDispatcher("/administrador.jsp").forward(req, resp);
-        }
-    }
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//
+//        String query = req.getParameter("query");
+//        Connection dbConnection = new Connection();
+//        boolean result = dbConnection.executaQueryBool(query);
+//
+//
+//        if (result) {
+//
+//            resp.getWriter().write("Executou com sucesso");
+//            req.getRequestDispatcher("/administrador.jsp").forward(req, resp);
+//        } else {
+//
+//            resp.getWriter().write("Erro");
+//            req.getRequestDispatcher("/administrador.jsp").forward(req, resp);
+//        }
+//    }
 }

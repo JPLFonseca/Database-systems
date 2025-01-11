@@ -17,14 +17,32 @@ public class AdminManager {
 
 
         String query = "INSERT INTO Cliente (NIF, Nome, Contacto, Morada, Preferencias_Linguisticas)"
-                + "VALUES('" + array[0] + "','" + array[1]+ "','" + array[2]+ "','" + array[3]+ "','" + array[4]+ "')"
+                + "VALUES('" + array[0] + "','" + array[1]+ "','" + array[2]+ "' ,'" + array[3]+ "','" + array[4]+ "')"
                 + "AS new ON DUPLICATE KEY UPDATE Nome = new.Nome, Contacto = new.Contacto,"
                 + "    Morada = new.Morada,"
                 + "    Preferencias_Linguisticas = new.Preferencias_Linguisticas;";
         boolean altera_dados = dados.xDirectiva(query);
 
+//        String nQuery = "INSERT INTO Condutor(Numero_Carta,Nome,Data_Emissao_Carta,Data_Nascimento,Validade_Carta,Reputacao,NIF)"
+//                + "VALUES('"+ array[5] + "','"+ array[1] + "','"+ array[6] + "','"+ array[7] + "','"
+//                + array[8] + "','"+ array[9] + "','"+ array[0] + "') AS new"
+//                + "ON DUPLICATE KEY UPDATE"
+//                + "    Nome = new.Nome,\r\n"
+//                + "    Data_Emissao_Carta = new.Data_Emissao_Carta,"
+//                + "    Data_Nascimento = new.Data_Nascimento,"
+//                + "    Validade_Carta = new.Validade_Carta,"
+//                + "    Reputacao = new.Reputacao,"
+//                + "    NIF = new.NIF;";
+//
+//        boolean altera_dados_2 = dados.xDirectiva(nQuery);
+//
+//
+//
+//        return (altera_dados && altera_dados_2);
         return altera_dados;
     }
+
+
 
     //TODO verificar o query novamente, se é pref linguistica ou capSOcial
     public static boolean gerirClienteEmpresarial(Manipula dados, String[] array) {

@@ -63,10 +63,15 @@
     </form>
 </div>
 
+
+<div id="resultados"></div>
 </body>
 </html>
 <script>
 function atualizarPagina(){
+
+
+    var operacao = document.getElementById("Operacao").value;
 
 
     var inputs = document.getElementsByTagName("input");
@@ -78,9 +83,8 @@ function atualizarPagina(){
         selects[i].disabled = true;
         }
         document.getElementById("Operacao").disabled = false;
-    document.getElementById("Operacao").disabled = false;
 
-    var operacao = document.getElementById("Operacao").value;
+
 
 
 if(operacao === "A"){
@@ -89,7 +93,6 @@ if(operacao === "A"){
     document.getElementById("linguagem").disabled = false;
     document.getElementById("telemovel").disabled = false;
     document.getElementById("morada").disabled = false;
-    document.getElementById("nomeCondutor").disabled = false;
     document.getElementById("cconducao").disabled = false;
     document.getElementById("dataEmissao").disabled = false;
     document.getElementById("dataValidade").disabled = false;
