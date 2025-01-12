@@ -49,6 +49,8 @@ public class Admin extends HttpServlet {
 
         if(comando.equals("A")){ // atualiazar info pessoal
 
+            System.out.println("Numero carta conducao: " + nCartaConducao);
+
             String[] array = new String[]{nif,nomeCliente,telemovel,morada,prefLinguistica,nCartaConducao,dataEmissao,dataNascimento,dataValidade,reputacao};
 
             boolean caCliente = AdminManager.gerirClientePessoal(dados,array);
@@ -60,13 +62,49 @@ public class Admin extends HttpServlet {
                 txt+="<h1>Erro a realizar a operação!</h1>";
             }
 
+        } else if(comando.equals("B")){
+
+
+            String[] array = new String[]{nif,nomeCliente,telemovel,morada,prefLinguistica,nCartaConducao,dataEmissao,dataNascimento,dataValidade,reputacao,nomeCondutor,capSocial};
+
+            boolean caCliente = AdminManager.gerirClienteEmpresarial(dados,array);
+
+            if(caCliente) {
+                txt+="<h1>Operação realizada com sucesso!</h1>";
+            }
+            else {
+                txt+="<h1>Erro a realizar a operação!</h1>";
+            }
+        } else if(comando.equals("C")){
+
+//            String [][] preTable = null;
+//            try {preTable = AdminManager.getInfoCarros(dados);} catch (SQLException e) {e.printStackTrace();}
+//
+//            txt="<h2>Todos os carros</h2><br><table><tr><th>Marca</th><th>Modelo</th><th>Tipo</th></tr>";
+//
+//            for (int coluna = 0; coluna < preTable[0].length; coluna++) { // Iterate over rows
+//                txt += "<tr>";
+//                for (int linha = 0; linha < preTable.length; linha++) { // Iterate over columns
+//                    String dado = preTable[linha][coluna];
+//                    System.out.println(dado);
+//                    if (dado == null || dado.equals("")) {
+//                        txt+="<td>-</td>"; // Handle null or empty values
+//                    } else {
+//                        txt+="<td>"+dado+"</td>";
+//                    }
+//                }
+//                txt+="</tr>";
+//            }
+//            txt+="</table>";
+//
         }
+            System.out.println(txt);
+            dados.desligar();
 
-        System.out.println(txt);
-        dados.desligar();
+            resp.getWriter().write(txt);
 
-        resp.getWriter().write(txt);
-        } else{
+        }else{
+
             req.getRequestDispatcher("/administrador.jsp").forward(req, resp);
         }
 
