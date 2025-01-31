@@ -140,7 +140,7 @@
         var xhr = new XMLHttpRequest();
 
 
-        xhr.open("GET", "Admin?comando=" + encodeURIComponent(comando) + "&nomeCliente=" + encodeURIComponent(nomeCliente) + "&nomeCondutor=" + encodeURIComponent(nomeCondutor) + "&morada=" + encodeURIComponent(morada) + "&nif=" + encodeURIComponent(nif) + "&prefLinguistica=" + encodeURIComponent(prefLinguistica) + "&capSocial=" + encodeURIComponent(capSocial) + "&telemovel=" + encodeURIComponent(telemovel) + "&=nCartaConducao" + encodeURIComponent(nCartaConducao) + "&dataEmissao=" + encodeURIComponent(dataEmissao) + "&dataNascimento=" + encodeURIComponent(dataNascimento) + "&dataValidade=" + encodeURIComponent(dataValidade) + "&reputacao=" + encodeURIComponent(reputacao), true);
+        xhr.open("GET", "Admin?comando=" + encodeURIComponent(comando) + "&nomeCliente=" + encodeURIComponent(nomeCliente) + "&nomeCondutor=" + encodeURIComponent(nomeCondutor) + "&morada=" + encodeURIComponent(morada) + "&nif=" + encodeURIComponent(nif) + "&prefLinguistica=" + encodeURIComponent(prefLinguistica) + "&capSocial=" + encodeURIComponent(capSocial) + "&telemovel=" + encodeURIComponent(telemovel) + "&nCartaConducao=" + encodeURIComponent(nCartaConducao) + "&dataEmissao=" + encodeURIComponent(dataEmissao) + "&dataNascimento=" + encodeURIComponent(dataNascimento) + "&dataValidade=" + encodeURIComponent(dataValidade) + "&reputacao=" + encodeURIComponent(reputacao), true);
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
