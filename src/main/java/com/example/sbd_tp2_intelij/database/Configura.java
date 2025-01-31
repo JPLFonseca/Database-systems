@@ -36,9 +36,9 @@ public class Configura {
 
     /* Configuração para o MySQL8 com JDBC tipo 4 */
 
-    private String database = "clubedesaude";
-    private String usr = "guest";
-    private String pwd = "guest";
+    private String database = "myrentacar";
+    private String usr = "root";
+    private String pwd = "root";
     private String serverName = "localhost"; // "pfhp7" ;
 
     private String drv = "com.mysql.cj.jdbc.Driver";

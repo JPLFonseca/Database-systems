@@ -77,26 +77,26 @@ public class Admin extends HttpServlet {
             }
         } else if(comando.equals("C")){
 
-//            String [][] preTable = null;
-//            try {preTable = AdminManager.getInfoCarros(dados);} catch (SQLException e) {e.printStackTrace();}
-//
-//            txt="<h2>Todos os carros</h2><br><table><tr><th>Marca</th><th>Modelo</th><th>Tipo</th></tr>";
-//
-//            for (int coluna = 0; coluna < preTable[0].length; coluna++) { // Iterate over rows
-//                txt += "<tr>";
-//                for (int linha = 0; linha < preTable.length; linha++) { // Iterate over columns
-//                    String dado = preTable[linha][coluna];
-//                    System.out.println(dado);
-//                    if (dado == null || dado.equals("")) {
-//                        txt+="<td>-</td>"; // Handle null or empty values
-//                    } else {
-//                        txt+="<td>"+dado+"</td>";
-//                    }
-//                }
-//                txt+="</tr>";
-//            }
-//            txt+="</table>";
-//
+            String [][] preTable = null;
+            try {preTable = AdminManager.getInfoCarros(dados);} catch (SQLException e) {e.printStackTrace();}
+
+            txt="<h2>Todos os carros</h2><br><table><tr><th>Matricula</th><th>Marca</th><th>Modelo</th><th>Tipo</th></tr>";
+
+            for (int coluna = 0; coluna < preTable[0].length; coluna++) { // Iterate over rows
+                txt += "<tr>";
+                for (int linha = 0; linha < preTable.length; linha++) { // Iterate over columns
+                    String dado = preTable[linha][coluna];
+                    System.out.println(dado);
+                    if (dado == null || dado.equals("")) {
+                        txt+="<td>-</td>"; // Handle null or empty values
+                    } else {
+                        txt+="<td>"+dado+"</td>";
+                    }
+                }
+                txt+="</tr>";
+            }
+            txt+="</table>";
+
         }
             System.out.println(txt);
             dados.desligar();

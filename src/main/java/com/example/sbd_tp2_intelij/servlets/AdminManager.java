@@ -99,20 +99,22 @@ public class AdminManager {
 
     public static String[][] getInfoCarros(Manipula dados) throws SQLException {
 
-        String query = "SELECT Marca,Modelo,Tipo FROM Veiculo;";
+        String query = "SELECT Matricula,Marca,Modelo,Tipo FROM Veiculo;";
 
         ResultSet carros = dados.getResultado(query);
 
+        ArrayList<String> allMatriculas = new ArrayList<>();
         ArrayList<String> allMarcas = new ArrayList<>();
         ArrayList<String> allModelos = new ArrayList<>();
         ArrayList<String> allTipos = new ArrayList<>();
 
         while(carros.next()) {
+            allMatriculas.add(carros.getString("Matricula"));
             allMarcas.add(carros.getString("Marca"));
             allModelos.add(carros.getString("Modelo"));
             allTipos.add(carros.getString("Tipo"));
         }
-        String[][] array = {allMarcas.toArray(new String[0]),allModelos.toArray(new String[0]),allTipos.toArray(new String[0])};
+        String[][] array = {allMatriculas.toArray((allMarcas.toArray(new String[0]))),allMarcas.toArray(new String[0]),allModelos.toArray(new String[0]),allTipos.toArray(new String[0])};
 
         return array;
     }

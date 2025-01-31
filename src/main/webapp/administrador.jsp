@@ -113,6 +113,7 @@
 
         } else if (operacao === "C") {
 
+
         }
 
 
@@ -148,19 +149,6 @@
         };
         xhr.send();
     }
-
-
-    // window.onload = function () {
-    //     var xhrXHR = new XMLHttpRequest();
-    //     xhrXHR.onreadystatechange = function () {
-    //         if (xhrXHR.readyState == 4 && xhrXHR.status == 200) {
-    //             document.getElementById('listaCarros').innerHTML = xhrXHR.responseText;
-    //         }
-    //     };
-    //
-    //
-    //
-    // };
 
 
 </script>
