@@ -21,9 +21,9 @@
 </div>
 
 <div class="atualizar">
-  <h2>Funcionário</h2>
-  <form action="Funcionario" method="post">
 
+  <form action="Funcionario" method="post">
+<br><br>
     <label for="nif">NIF:</label>
     <input type="text" id="nif" pattern="\d{9}" maxlength="9" ><br><br>
 
@@ -45,13 +45,12 @@
     <label for="descricao">Descrição da intervenção:</label>
     <input type="text" id="descricao" ><br><br>
 
-    <input type="submit" id="Comando" value="Atualizar Cliente">
+    <input type="submit" id="Comando" value="...">
   </form>
 </div>
 
 
 <div id="resultados"></div>
-<div id="listaCarros"></div>
 </body>
 </html>
 <script>
@@ -83,11 +82,13 @@
       document.getElementById("nomeCliente").disabled = false;
 
     }else if (operacao === "ac") {
-      document.getElementById("NIF").disabled = false;
+      document.getElementById("nif").disabled = false;
       document.getElementById("reputacao").disabled = false;
       document.getElementById("desconto").disabled = false;
+
     }else if (operacao === "icd") {
-      document.getElementById("Matriula").disabled = false;
+
+      document.getElementById("matricula").disabled = false;
       document.getElementById("data").disabled = false;
     }
 
@@ -118,5 +119,8 @@
     xhr.send();
   }
 
+  window.onload = function() {
+    atualizarPagina();
+  };
 
 </script>

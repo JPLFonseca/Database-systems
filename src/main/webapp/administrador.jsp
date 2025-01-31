@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Alterar dados em modo Admin</title>
+    <title>Modo Admin</title>
 </head>
 <body>
 <h2>Administrador</h2>
@@ -19,9 +19,9 @@
 </div>
 
 <div class="atualizar">
-    <h2>Admin</h2>
-    <form action="Admin" method="post">
 
+    <form action="Admin" method="post">
+<br><br>
         <label for="nif">NIF:</label>
         <input type="text" id="nif" pattern="\d{9}" maxlength="9" ><br><br>
 
@@ -150,5 +150,7 @@
         xhr.send();
     }
 
-
+    window.onload = function() {
+        atualizarPagina();
+    };
 </script>

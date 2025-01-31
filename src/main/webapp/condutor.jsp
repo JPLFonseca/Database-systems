@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Condutor</title>
+    <title>Modo Condutor</title>
 </head>
 <body>
 <h2>Condutor</h2>
@@ -19,9 +19,9 @@
 </div>
 
 <div class="atualizar">
-    <h2>Condutor</h2>
-    <form action="Condutor" method="post">
 
+    <form action="Condutor" method="post">
+<br><br>
         <label for="nif">Introduza o seu NIF:</label>
         <input type="text" id="nif" pattern="\d{9}" maxlength="9" ><br><br>
 
@@ -109,5 +109,7 @@
         xhr.send();
     }
 
-
+    window.onload = function() {
+        atualizarPagina();
+    };
 </script>
