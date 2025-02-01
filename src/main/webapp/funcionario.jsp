@@ -34,10 +34,13 @@
     <input type="text" id="reputacao" maxlength="3" placeholder="Valor entre 0 e 100"><br><br>
 
     <label for="desconto">Desconto:</label>
-    <input type="text" id="desconto" maxlength="3" placeholder="Valor entre 0 e 100"><br><br>
+    <input type="text" id="desconto" maxlength="3" placeholder="Valor entre 0 e 10"><br><br>
 
     <label for="matricula">Matricula:</label>
     <input type="text" id="matricula" ><br><br>
+
+      <label for="km">Kilometros do veículo:</label>
+      <input type="text" id="km" ><br><br>
 
     <label for="data">Data:</label>
     <input type="date" id="data" ><br><br>
@@ -77,6 +80,9 @@
     } else if (operacao === "ri") {
       document.getElementById("matricula").disabled = false;
       document.getElementById("descricao").disabled = false;
+      document.getElementById("data").disabled = false;
+      document.getElementById("km").disabled = false;
+
 
     } else if (operacao === "edc") {
       document.getElementById("nomeCliente").disabled = false;
@@ -105,11 +111,12 @@
     var matricula = document.getElementById("matricula").value;
     var data = document.getElementById("data").value;
     var descricao = document.getElementById("descricao").value;
+    var km = document.getElementById("km").value;
 
     var xhr = new XMLHttpRequest();
 
 
-    xhr.open("GET", "Funcionario?comando=" + encodeURIComponent(comando) + "&nomeCliente=" + encodeURIComponent(nomeCliente) + "&nif=" + encodeURIComponent(nif) + "&reputacao=" + encodeURIComponent(reputacao)+ "&desconto=" + encodeURIComponent(desconto)+ "&matricula=" + encodeURIComponent(matricula)+ "&data=" + encodeURIComponent(data)+ "&descricao=" + encodeURIComponent(descricao), true);
+    xhr.open("GET", "Funcionario?comando=" + encodeURIComponent(comando) + "&nomeCliente=" + encodeURIComponent(nomeCliente) + "&nif=" + encodeURIComponent(nif) + "&reputacao=" + encodeURIComponent(reputacao)+ "&desconto=" + encodeURIComponent(desconto)+ "&matricula=" + encodeURIComponent(matricula)+ "&data=" + encodeURIComponent(data)+ "&descricao=" + encodeURIComponent(descricao)+ "&km=" + encodeURIComponent(km), true);
 
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.status == 200) {
