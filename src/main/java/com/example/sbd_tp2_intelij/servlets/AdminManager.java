@@ -118,4 +118,10 @@ public class AdminManager {
 
         return array;
     }
+
+
+    public static ResultSet getDataExport(Manipula dados,String query) throws SQLException {
+
+        return dados.getResultado(query);
+    }
 }

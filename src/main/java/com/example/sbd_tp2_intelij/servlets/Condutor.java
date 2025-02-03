@@ -76,18 +76,21 @@ public class Condutor extends HttpServlet {
                     txt = "<h2>Informações do Aluguer</h2><br><div>Nenhum aluguer encontrado para este cliente.</div>";
                 }
 
-            } else if(comando.equals("E")){
-                String[][] preTable = null;
+            } else if(comando.equals("E")){String[][] preTable = null;
                 try {
                     preTable = CondutorManager.entregarVeiculo(dados, nif, codaN, codaW);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
 
+
                 txt = "<h2>Entrega do Veículo</h2><br>" +
-                        "<table style='border-collapse: collapse; width: 50%; text-align: center;'>" +
-                        "<tr><th style='border: 1px solid black; padding: 8px;'>Coordenadas de Entrega</th>" +
-                        "<th style='border: 1px solid black; padding: 8px;'>Parque Mais Próximo</th></tr>";
+                        "<table style='border-collapse: collapse; width: 60%; text-align: center;'>" +
+                        "<tr>" +
+                        "   <th style='border: 1px solid black; padding: 8px; background-color: #f2f2f2;'>Local de Entrega Previsto</th>" +
+                        "   <th style='border: 1px solid black; padding: 8px; background-color: #f2f2f2;'>Local de Entrega mais Próximo</th>" +
+                        "</tr>";
+
 
                 if (preTable != null && preTable.length > 0 && preTable[0].length > 0) {
                     for (int i = 0; i < preTable[0].length; i++) {
@@ -102,7 +105,7 @@ public class Condutor extends HttpServlet {
                         txt += "</tr>";
                     }
                 } else {
-                    txt += "<tr><td colspan='2' style='border: 1px solid black; padding: 8px;'>Nenhum dado disponível</td></tr>";
+                    txt += "<tr><td colspan='4' style='border: 1px solid black; padding: 8px;'>Nenhum dado disponível</td></tr>";
                 }
 
                 txt += "</table>";

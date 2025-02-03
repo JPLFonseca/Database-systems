@@ -49,47 +49,49 @@ public class CondutorManager {
 }
     public static String[][] entregarVeiculo(Manipula dados,String NIF,String codaN, String codaW) throws SQLException {
 
-        // vai buscar a última reserva feita com a aquele NIF. Limita a 1 valor apenas
-        String queryEntrega = "SELECT Coordenadas_Entrega FROM Aluguer WHERE NIF = '" + NIF + "' ORDER BY Fim DESC LIMIT 1;";
+        // Vai procurar a última reserva feita com aquele NIF. Limita a 1 valor apenas
+        String queryEntrega =
+                "SELECT P.Localidade, P.Morada " +
+                        "FROM Aluguer A " +
+                        "JOIN Parque_Estacionamento P ON A.Coordenadas_Entrega = P.Coordenadas " +
+                        "WHERE A.NIF = '" + NIF + "' " +
+                        "ORDER BY A.Fim DESC LIMIT 1;";
 
         ResultSet resultEntrega = dados.getResultado(queryEntrega);
-        String coordenadasEntrega = null;
+        String localidadeEntrega = null;
+        String moradaEntrega = null;
 
         if (resultEntrega.next()) {
-            coordenadasEntrega = resultEntrega.getString("Coordenadas_Entrega");
+            localidadeEntrega = resultEntrega.getString("Localidade");
+            moradaEntrega = resultEntrega.getString("Morada");
         }
 
 
         String queryParqueMaisPerto =
-                "SELECT Coordenadas, " +
+                "SELECT P.Localidade, P.Morada, " +
                         "   (6371 * ACOS( " +
-                        "       COS(RADIANS(" + codaN + ")) * COS(RADIANS(SUBSTRING_INDEX(Coordenadas, ',', 1))) * " +
-                        "       COS(RADIANS(SUBSTRING_INDEX(Coordenadas, ',', -1)) - RADIANS(" + codaW + ")) + " +
-                        "       SIN(RADIANS(" + codaN + ")) * SIN(RADIANS(SUBSTRING_INDEX(Coordenadas, ',', 1))) " +
+                        "       COS(RADIANS(" + codaN + ")) * COS(RADIANS(SUBSTRING_INDEX(P.Coordenadas, ',', 1))) * " +
+                        "       COS(RADIANS(SUBSTRING_INDEX(P.Coordenadas, ',', -1)) - RADIANS(" + codaW + ")) + " +
+                        "       SIN(RADIANS(" + codaN + ")) * SIN(RADIANS(SUBSTRING_INDEX(P.Coordenadas, ',', 1))) " +
                         "   )) AS Distancia_KM " +
-                        "FROM Parque_Estacionamento " +
+                        "FROM Parque_Estacionamento P " +
                         "ORDER BY Distancia_KM ASC LIMIT 1;";
 
         ResultSet resultParque = dados.getResultado(queryParqueMaisPerto);
-        String parqueMaisPerto = null;
+        String localidadeParque = null;
+        String moradaParque = null;
 
         if (resultParque.next()) {
-            parqueMaisPerto = resultParque.getString("Coordenadas");
+            localidadeParque = resultParque.getString("Localidade");
+            moradaParque = resultParque.getString("Morada");
         }
 
-        // verifica se os valores não são null
-        String[][] array = new String[2][1];
-        if (coordenadasEntrega == null) {
-            array[0][0] = "-";
-        } else {
-            array[0][0] = coordenadasEntrega;
-        }
 
-        if (parqueMaisPerto == null) {
-            array[1][0] = "-";
-        } else {
-            array[1][0] = parqueMaisPerto;
-        }
+        String[][] array = new String[2][2];  // Agora temos duas colunas: Localidade e Morada
+        array[0][0] = (localidadeEntrega != null) ? localidadeEntrega : "-";
+        array[0][1] = (moradaEntrega != null) ? moradaEntrega : "-";
+        array[1][0] = (localidadeParque != null) ? localidadeParque : "-";
+        array[1][1] = (moradaParque != null) ? moradaParque : "-";
 
         return array;
     }

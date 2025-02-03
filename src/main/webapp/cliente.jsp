@@ -3,48 +3,114 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cliente - Reserva de Veículo</title>
+    <title>Modo Cliente</title>
 </head>
 <body>
-<h1>Cliente</h1>
-<h2>Alugar Veiculo</h2>
-
-<form method="post" action="/Cliente?action=reservarVeiculo">
-    <!-- Campo para selecionar o tipo de veículo -->
-    <label for="tipoVeiculo">Tipo de Veículo:</label>
-    <select name="tipoVeiculo" id="tipoVeiculo" required>
-        <c:forEach var="tipos" items="${tiposVeiculos}">
-            <option value="${tipos.Tipo}">${tipos.Tipo}</option>
-        </c:forEach>
+<h2>Cliente</h2>
+<div class="Operacoes">
+    <label for="Operacao">Escolha a operação que pretende realizar: </label>
+    <select id="Operacao" onchange="atualizarPagina()">
+        <option value="ResVeiculo">Reservar veículo</option>
+        <option value="ReservState">Estado da reserva</option>
+        <option value="CRD">Consultar reputação e descontos</option>
     </select>
-    <br><br>
+    <button formnovalidate="formnovalidate" id="Executar" onclick="document.getElementById('Comando').value = document.getElementById('Operacao').value; getResultados()">Executar</button>
+</div>
 
-    <!-- Campo para selecionar o parque de estacionamento -->
-    <label for="parqueLevantamento">Parque de Estacionamento:</label>
-    <select name="parqueLevantamento" id="parqueLevantamento" required>
-        <c:forEach var="parque" items="${parques}">
-            <option value="${parque.coordenadas}">${parque.morada} - ${parque.localidade}</option>
-        </c:forEach>
-    </select>
-    <br><br>
+<div class="atualizar">
 
-    <!-- Campo para selecionar o período de aluguer -->
-    <label for="periodoAluguer">Período de Aluguer:</label>
-    <select name="periodoAluguer" id="periodoAluguer" required>
-        <option value="1">1 hora</option>
-        <option value="2">2 horas</option>
-        <option value="3">3 horas</option>
+    <form action="Admin" method="post">
+        <br><br>
+        <label for="nif">NIF:</label>
+        <input type="text" id="nif" pattern="\d{9}" maxlength="9" ><br><br>
 
-        <option value="24">1 dia</option>
-        <option value="48">2 dias</option>
-        <option value="72">3 dias</option>
+        <div id="veiculo_data"></div>
 
-        <option value="336">1 semana</option>
-        <option value="336">2 semanas</option>
-    </select>
-    <br><br>
+        <input type="submit" id="Comando" value="Atualizar Cliente">
+    </form>
+</div>
 
-    <button type="submit">Reservar</button>
-</form>
+
+<div id="resultados"></div>
+
 </body>
+<script>
+    function atualizarPagina() {
+
+
+        var operacao = document.getElementById("Operacao").value;
+
+
+        var inputs = document.getElementsByTagName("input");
+        var selects = document.getElementsByTagName("select");
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].disabled = true;
+        }
+        for (var i = 0; i < selects.length; i++) {
+            selects[i].disabled = true;
+        }
+        document.getElementById("Operacao").disabled = false;
+
+
+        if (operacao === "ResVeiculo") {
+            document.getElementById("nif").disabled = false;
+
+
+
+            var xhr22 = new XMLHttpRequest();
+
+            var comando = "getStuff";
+
+            xhr22.open("GET", "Cliente?comandoPedir=" + encodeURIComponent(comando) , true);
+
+            xhr22.onreadystatechange = function () {
+                if (xhr22.readyState == 4 && xhr22.status == 200) {
+                    document.getElementById('veiculo_data').innerHTML = xhr.responseText;
+                }
+            };
+            xhr22.send();
+
+
+
+        } else if (operacao === "B") {
+
+            document.getElementById("nif").disabled = false;
+
+
+        } else if (operacao === "C") {
+
+
+        }
+
+
+    }
+
+    function getResultados() {
+
+        var comando = document.getElementById("Comando").value;
+        var nif = document.getElementById("Comando").value;
+        var parque = document.getElementById("parque").value;
+        var tipoVeiculo = document.getElementById("tipoVeiculo").value;
+        var dataInicio = document.getElementById("dataInicio").value;
+        var dataFim = document.getElementById("dataFim").value;
+
+
+
+        var xhr = new XMLHttpRequest();
+
+
+        xhr.open("GET", "Cliente?comando=" + encodeURIComponent(comando) + "&nif=" + encodeURIComponent(nif) + "&tipoVeiculo=" + encodeURIComponent(tipoVeiculo) + "&parque=" + encodeURIComponent(parque)+ "&dataInicio=" + encodeURIComponent(dataFim), true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                document.getElementById('resultados').innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send();
+    }
+
+    window.onload = function() {
+        atualizarPagina();
+    };
+</script>
 </html>

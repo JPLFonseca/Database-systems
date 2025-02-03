@@ -13,7 +13,8 @@
     <select id="Operacao" onchange="atualizarPagina()">
         <option value="A">Atualizar dados do cliente (pessoal)</option>
         <option value="B">Atualizar dados do cliente (empresa)</option>
-        <option value="C">Exportar dados de veículo</option>
+        <option value="C">Mostrar dados de veículo</option>
+
     </select>
     <button formnovalidate="formnovalidate" id="Executar" onclick="document.getElementById('Comando').value = document.getElementById('Operacao').value; getResultados()">Executar</button>
 </div>
@@ -66,6 +67,12 @@
 
 <div id="resultados"></div>
 <div id="listaCarros"></div>
+
+<label for="matricula">Digite a Matrícula do Veículo:</label>
+<input type="text" id="matricula" placeholder="Ex: AA1234">
+<button onclick="exportarJSON()">Exportar JSON</button>
+<div id="jsonOutput" style="white-space: pre-wrap; background: #f4f4f4; padding: 10px; border: 1px solid #ddd; margin-top: 10px;"></div>
+
 </body>
 </html>
 <script>
@@ -113,7 +120,7 @@
 
         } else if (operacao === "C") {
 
-
+            document.getElementById("matricula").disabled = false;
         }
 
 
@@ -134,13 +141,14 @@
         var dataNascimento = document.getElementById("dataNascimento").value;
         var dataValidade = document.getElementById("dataValidade").value;
         var reputacao = document.getElementById("reputacao").value;
+        var matricula = document.getElementById("matricula").value;
 
-        console.log(comando + " " + nCartaConducao);
+
 
         var xhr = new XMLHttpRequest();
 
 
-        xhr.open("GET", "Admin?comando=" + encodeURIComponent(comando) + "&nomeCliente=" + encodeURIComponent(nomeCliente) + "&nomeCondutor=" + encodeURIComponent(nomeCondutor) + "&morada=" + encodeURIComponent(morada) + "&nif=" + encodeURIComponent(nif) + "&prefLinguistica=" + encodeURIComponent(prefLinguistica) + "&capSocial=" + encodeURIComponent(capSocial) + "&telemovel=" + encodeURIComponent(telemovel) + "&nCartaConducao=" + encodeURIComponent(nCartaConducao) + "&dataEmissao=" + encodeURIComponent(dataEmissao) + "&dataNascimento=" + encodeURIComponent(dataNascimento) + "&dataValidade=" + encodeURIComponent(dataValidade) + "&reputacao=" + encodeURIComponent(reputacao), true);
+        xhr.open("GET", "Admin?comando=" + encodeURIComponent(comando) + "&nomeCliente=" + encodeURIComponent(nomeCliente) + "&nomeCondutor=" + encodeURIComponent(nomeCondutor) + "&morada=" + encodeURIComponent(morada) + "&nif=" + encodeURIComponent(nif) + "&prefLinguistica=" + encodeURIComponent(prefLinguistica) + "&capSocial=" + encodeURIComponent(capSocial) + "&telemovel=" + encodeURIComponent(telemovel) + "&nCartaConducao=" + encodeURIComponent(nCartaConducao) + "&dataEmissao=" + encodeURIComponent(dataEmissao) + "&dataNascimento=" + encodeURIComponent(dataNascimento) + "&dataValidade=" + encodeURIComponent(dataValidade) + "&reputacao=" + encodeURIComponent(reputacao)+ "&matricula=" + encodeURIComponent(matricula), true);
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -153,4 +161,32 @@
     window.onload = function() {
         atualizarPagina();
     };
+
+
+
+    function exportarJSON() {
+        var matricula = document.getElementById("matricula").value;
+        var comandoExport = "Exportar";
+
+        if (!matricula) {
+            alert("Por favor, insira uma matrícula válida");
+            return;
+        }
+
+
+        fetch("Admin?matricula=" + encodeURIComponent(matricula) + "&comando=" + encodeURIComponent(comandoExport))
+            .then(response => response.json())
+            .then(data => {
+
+                document.getElementById("jsonOutput").textContent = JSON.stringify(data, null, 4);
+
+
+                var blob = new Blob([JSON.stringify(data, null, 4)], { type: "application/json" });
+                var link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "veiculo_" + matricula + ".json";
+                link.click();
+            })
+            .catch(error => console.error("Erro ao buscar dados:", error));
+    }
 </script>

@@ -13,12 +13,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import com.example.sbd_tp2_intelij.database.Configura;
 import com.example.sbd_tp2_intelij.database.Manipula;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 @WebServlet("/Admin")
@@ -39,6 +43,7 @@ public class Admin extends HttpServlet {
         String dataValidade = req.getParameter("dataValidade");
         String dataNascimento = req.getParameter("dataNascimento");
         String reputacao = req.getParameter("reputacao");
+        String matricula = req.getParameter("matricula");
 
         String txt = "";
 
@@ -97,6 +102,62 @@ public class Admin extends HttpServlet {
             }
             txt+="</table>";
 
+        } else if(comando.equals("Exportar")){
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            PrintWriter out = resp.getWriter();
+
+            if (matricula == null || matricula.isEmpty()) {
+                out.print("{\"erro\": \"Matrícula não fornecida\"}");
+                return;
+            }
+
+
+
+
+            try {
+
+                String queryVeiculo = "SELECT Matricula, Marca, Modelo, Cor, Tipo FROM Veiculo WHERE Matricula = '" + matricula + "';";
+                ResultSet resultVeiculo = AdminManager.getDataExport(dados, queryVeiculo);
+
+                if (resultVeiculo.next()) {
+
+                    JSONObject veiculoJSON = new JSONObject();
+                    veiculoJSON.put("Matricula", resultVeiculo.getString("Matricula"));
+                    veiculoJSON.put("Marca", resultVeiculo.getString("Marca"));
+                    veiculoJSON.put("Modelo", resultVeiculo.getString("Modelo"));
+                    veiculoJSON.put("Cor", resultVeiculo.getString("Cor"));
+                    veiculoJSON.put("Tipo", resultVeiculo.getString("Tipo"));
+
+
+                    String queryManutencao = "SELECT Data_Intervencao, Km_Atual, Descricao FROM Manutencao WHERE Matricula = '" + matricula + "';";
+                    ResultSet resultManutencao = AdminManager.getDataExport(dados, queryManutencao);
+
+
+                    JSONArray manutencaoArray = new JSONArray();
+
+                    while (resultManutencao.next()) {
+                        JSONObject manutencaoJSON = new JSONObject();
+                        manutencaoJSON.put("Data", resultManutencao.getString("Data_Intervencao"));
+                        manutencaoJSON.put("Km_Atual", resultManutencao.getString("Km_Atual"));
+                        manutencaoJSON.put("Descricao", resultManutencao.getString("Descricao"));
+                        manutencaoArray.put(manutencaoJSON);
+                    }
+
+
+                    veiculoJSON.put("Historico_Manutencao", manutencaoArray);
+
+
+                    out.print(veiculoJSON.toString());
+                } else {
+                    out.print("{\"erro\": \"Veículo não encontrado\"}");
+                }
+
+                dados.desligar();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                out.print("{\"erro\": \"Erro a encontrar os dados\"}");
+            }
         }
             System.out.println(txt);
             dados.desligar();
