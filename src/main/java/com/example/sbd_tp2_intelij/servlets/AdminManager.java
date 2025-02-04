@@ -32,7 +32,7 @@ public class AdminManager {
                 + "    Preferencias_Linguisticas = new.Preferencias_Linguisticas;";
         boolean altera_dados = dados.xDirectiva(query);
 
-        System.out.print(array[5]);
+
 
         String nQuery = "INSERT INTO Condutor(Numero_Carta,Nome,Data_Emissao_Carta,Data_Nascimento,Validade_Carta,Reputacao,NIF)"
                 + "VALUES('"+ array[5] + "','"+ array[1] + "','"+ array[6] + "','"+ array[7] + "','"

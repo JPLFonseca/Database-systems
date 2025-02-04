@@ -67,7 +67,7 @@
 
 <div id="resultados"></div>
 <div id="listaCarros"></div>
-
+<br><br>
 <label for="matricula">Digite a Matrícula do Veículo:</label>
 <input type="text" id="matricula" placeholder="Ex: AA1234">
 <button onclick="exportarJSON()">Exportar JSON</button>

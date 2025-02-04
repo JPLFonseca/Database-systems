@@ -46,35 +46,64 @@ public class Condutor extends HttpServlet {
                 try {preTable = CondutorManager.levantarVeiculo(dados,nif);} catch (SQLException e) {e.printStackTrace();}
 
 
-                txt = "<h2>Informações do Aluguer</h2><br><table>" +
-                        "<tr><th>Matricula</th><th>Coordenadas de Recolha</th><th>Coordenadas de Entrega</th>" +
-                        "<th>Início</th><th>Fim</th><th>Custo Final</th><th>Desconto</th></tr>";
+
+
+                txt = "<h2>Informações do Aluguer</h2><br>" +
+                        "<table style='border-collapse: collapse; width: 100%; text-align: center;'>" +
+                        "<tr>" +
+                        "<th style='border: 1px solid black; padding: 8px; background-color: #f2f2f2;'>Matrícula</th>" +
+                        "<th style='border: 1px solid black; padding: 8px; background-color: #f2f2f2;'>Local de Recolha</th>" +
+                        "<th style='border: 1px solid black; padding: 8px; background-color: #f2f2f2;'>Local de Entrega</th>" +
+                        "<th style='border: 1px solid black; padding: 8px; background-color: #f2f2f2;'>Início</th>" +
+                        "<th style='border: 1px solid black; padding: 8px; background-color: #f2f2f2;'>Fim</th>" +
+                        "<th style='border: 1px solid black; padding: 8px; background-color: #f2f2f2;'>Custo Final</th>" +
+                        "<th style='border: 1px solid black; padding: 8px; background-color: #f2f2f2;'>Desconto</th>" +
+                        "</tr>";
 
                 if (preTable != null && preTable.length > 0 && preTable[0].length > 0) {
-                    txt += "<style>"
-                            + "table{border-collapse: collapse; width: 100%;}"
-                            + "th,td{border: 1px solid black; padding: 8px; text-align: center;}"
-                            + "th{ background-color: #f2f2f2;}"
-                            + "</style>";
-
-                    for (int coluna = 0; coluna < preTable[0].length; coluna++) { // Iterate over rows
+                    for (int coluna = 0; coluna < preTable[0].length; coluna++) {
                         txt += "<tr>";
-                        for (int linha = 0; linha < preTable.length; linha++) { // Iterate over columns
+
+                        // Matrícula
+                        txt += "<td style='border: 1px solid black; padding: 8px;'>" +
+                                (preTable[0][coluna] == null || preTable[0][coluna].equals("") ? "-" : preTable[0][coluna]) +
+                                "</td>";
+
+                        // Local de Recolha Localidade + Morada
+                        String localidadeRecolha = preTable[1][coluna] != null ? preTable[1][coluna] : "-";
+                        String moradaRecolha = preTable[2][coluna] != null ? preTable[2][coluna] : "-";
+                        txt += "<td style='border: 1px solid black; padding: 8px;'>" + localidadeRecolha + "<br><small>" + moradaRecolha + "</small></td>";
+
+                        // Local de Entrega Localidade + Morada
+                        String localidadeEntrega = preTable[3][coluna] != null ? preTable[3][coluna] : "-";
+                        String moradaEntrega = preTable[4][coluna] != null ? preTable[4][coluna] : "-";
+                        txt += "<td style='border: 1px solid black; padding: 8px;'>" + localidadeEntrega + "<br><small>" + moradaEntrega + "</small></td>";
+
+                        for (int linha = 5; linha < preTable.length; linha++) {
                             String dado = preTable[linha][coluna];
-                            System.out.println(dado);
-                            if (dado == null || dado.equals("")) {
-                                txt += "<td>-</td>"; // Handle null or empty values
-                            } else {
-                                txt += "<td>" + dado + "</td>";
+
+
+                            if (linha == preTable.length - 1) {
+
+                                try {
+                                    double desconto = Double.parseDouble(dado);
+                                    dado = String.valueOf(desconto * 10) + "%";
+                                } catch (NumberFormatException e) {
+
+                                }
                             }
+
+                            txt += "<td style='border: 1px solid black; padding: 8px;'>" +
+                                    (dado == null || dado.equals("") ? "-" : dado) +
+                                    "</td>";
                         }
                         txt += "</tr>";
                     }
-
-                    txt += "</table>";
                 } else {
-                    txt = "<h2>Informações do Aluguer</h2><br><div>Nenhum aluguer encontrado para este cliente.</div>";
+                    txt += "<tr><td colspan='7' style='border: 1px solid black; padding: 8px;'>Nenhum dado disponível</td></tr>";
                 }
+
+                txt += "</table>";
 
             } else if(comando.equals("E")){String[][] preTable = null;
                 try {

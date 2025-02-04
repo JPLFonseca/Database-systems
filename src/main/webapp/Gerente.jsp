@@ -23,13 +23,16 @@
 <div class="atualizar">
 
     <form action="Gerente" method="post">
-        <input type="submit" id="Comando" value="Atualizar Cliente">
+
+        <label for="matricula">Matricula:</label>
+        <input type="text" id="matricula" ><br><br>
+
+        <input type="submit" id="Comando" value="...">
     </form>
 </div>
 
 
 <div id="resultados"></div>
-<div id="listaCarros"></div>
 </body>
 </html>
 <script>
@@ -39,10 +42,14 @@
 
         var comando = document.getElementById("Comando").value;
 
+
         var xhr = new XMLHttpRequest();
 
+        var matricula = document.getElementById("matricula").value;
 
-        xhr.open("GET", "Gerente?comando=" + encodeURIComponent(comando) , true);
+
+
+        xhr.open("GET", "Gerente?comando=" + encodeURIComponent(comando) + "&matricula=" + encodeURIComponent(matricula), true);
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -52,5 +59,32 @@
         xhr.send();
     }
 
+    function atualizarPagina() {
+
+
+        var operacao = document.getElementById("Operacao").value;
+
+
+        var inputs = document.getElementsByTagName("input");
+        var selects = document.getElementsByTagName("select");
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].disabled = true;
+        }
+        for (var i = 0; i < selects.length; i++) {
+            selects[i].disabled = true;
+        }
+        document.getElementById("Operacao").disabled = false;
+
+
+        if (operacao === "hist") {
+            document.getElementById("matricula").disabled = false;
+        }
+
+
+
+    }
+    window.onload = function() {
+        atualizarPagina();
+    };
 
 </script>

@@ -33,7 +33,7 @@
         <input type="text" id="codaW" ><br><br>
 
         <label for="avaliacao">Avalie o serviço:</label>
-        <input type="text" id="avaliacao" ><br><br>
+        <input type="text" id="avaliacao" placeholder="Valor entre 0 e 5"><br><br>
 
         <label for="comment">Comentário:</label>
         <select id="comment">

@@ -11,15 +11,23 @@ import java.util.Vector;
 
 public class CondutorManager {
 
-    public static String[][] levantarVeiculo(Manipula dados,String NIF) throws SQLException {
-        String query = "SELECT Matricula, Coordenadas_Recolha, Coordenadas_Entrega, Inicio, Fim, Custo_Final, Desconto " +
-                "FROM Aluguer WHERE NIF = '" + NIF + "';";
+    public static String[][] levantarVeiculo(Manipula dados, String NIF) throws SQLException {
+        String query = "SELECT A.Matricula, " +
+                "       P1.Localidade AS Recolha_Localidade, P1.Morada AS Recolha_Morada, " +
+                "       P2.Localidade AS Entrega_Localidade, P2.Morada AS Entrega_Morada, " +
+                "       A.Inicio, A.Fim, A.Custo_Final, A.Desconto " +
+                "FROM Aluguer A " +
+                "LEFT JOIN Parque_Estacionamento P1 ON A.Coordenadas_Recolha = P1.Coordenadas " +
+                "LEFT JOIN Parque_Estacionamento P2 ON A.Coordenadas_Entrega = P2.Coordenadas " +
+                "WHERE A.NIF = '" + NIF + "';";
 
         ResultSet alugueres = dados.getResultado(query);
 
         ArrayList<String> allMatriculas = new ArrayList<>();
-        ArrayList<String> allRecolhas = new ArrayList<>();
-        ArrayList<String> allEntregas = new ArrayList<>();
+        ArrayList<String> allRecolhaLocalidades = new ArrayList<>();
+        ArrayList<String> allRecolhaMoradas = new ArrayList<>();
+        ArrayList<String> allEntregaLocalidades = new ArrayList<>();
+        ArrayList<String> allEntregaMoradas = new ArrayList<>();
         ArrayList<String> allInicios = new ArrayList<>();
         ArrayList<String> allFins = new ArrayList<>();
         ArrayList<String> allCustos = new ArrayList<>();
@@ -27,8 +35,10 @@ public class CondutorManager {
 
         while (alugueres.next()) {
             allMatriculas.add(alugueres.getString("Matricula"));
-            allRecolhas.add(alugueres.getString("Coordenadas_Recolha"));
-            allEntregas.add(alugueres.getString("Coordenadas_Entrega"));
+            allRecolhaLocalidades.add(alugueres.getString("Recolha_Localidade"));
+            allRecolhaMoradas.add(alugueres.getString("Recolha_Morada"));
+            allEntregaLocalidades.add(alugueres.getString("Entrega_Localidade"));
+            allEntregaMoradas.add(alugueres.getString("Entrega_Morada"));
             allInicios.add(alugueres.getString("Inicio"));
             allFins.add(alugueres.getString("Fim"));
             allCustos.add(alugueres.getString("Custo_Final"));
@@ -37,8 +47,10 @@ public class CondutorManager {
 
         String[][] array = {
                 allMatriculas.toArray(new String[0]),
-                allRecolhas.toArray(new String[0]),
-                allEntregas.toArray(new String[0]),
+                allRecolhaLocalidades.toArray(new String[0]),
+                allRecolhaMoradas.toArray(new String[0]),
+                allEntregaLocalidades.toArray(new String[0]),
+                allEntregaMoradas.toArray(new String[0]),
                 allInicios.toArray(new String[0]),
                 allFins.toArray(new String[0]),
                 allCustos.toArray(new String[0]),
@@ -46,10 +58,11 @@ public class CondutorManager {
         };
 
         return array;
-}
+    }
+
     public static String[][] entregarVeiculo(Manipula dados,String NIF,String codaN, String codaW) throws SQLException {
 
-        // Vai procurar a última reserva feita com aquele NIF. Limita a 1 valor apenas
+        // Vai procurar a última reserva feita com aquele NIF
         String queryEntrega =
                 "SELECT P.Localidade, P.Morada " +
                         "FROM Aluguer A " +
