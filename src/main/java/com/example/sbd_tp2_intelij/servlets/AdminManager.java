@@ -10,15 +10,15 @@ import java.util.Vector;
 
 public class AdminManager {
 
-    public static boolean gerirClientePessoal(Manipula dados, String[] array) { // Dados vai ser do tipo Manipula dados
-        // e gerirCliente vai retornar um boolean
+    public static boolean gerirClientePessoal(Manipula dados, String[] array) {
+
 
         if (array == null || array.length < 10) {
             System.out.println("Dados inválidos");
             return false;
         }
 
-        // a verificacao se o NIF esta completo tem de ser feita na parte do jsp
+
 
         String pQuery = "INSERT IGNORE Pessoa (NIF) VALUES ('" + array[0] + "')";
 
@@ -47,10 +47,7 @@ public class AdminManager {
 
         boolean altera_dados_2 = dados.xDirectiva(nQuery);
 
-
-
         return (altera_dados && altera_dados_2);
-
     }
 
 

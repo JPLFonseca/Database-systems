@@ -66,7 +66,7 @@ public class Condutor extends HttpServlet {
 
                         // Matrícula
                         txt += "<td style='border: 1px solid black; padding: 8px;'>" +
-                                (preTable[0][coluna] == null || preTable[0][coluna].equals("") ? "-" : preTable[0][coluna]) +
+                                (preTable[0][coluna] == null || preTable[0][coluna].equals("") ? "-" : preTable[0][coluna]) + // faz uma operacao ternaria para verificar os dados
                                 "</td>";
 
                         // Local de Recolha Localidade + Morada

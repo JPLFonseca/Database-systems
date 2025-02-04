@@ -87,13 +87,13 @@ public class Admin extends HttpServlet {
 
             txt="<h2>Todos os carros</h2><br><table><tr><th>Matricula</th><th>Marca</th><th>Modelo</th><th>Tipo</th></tr>";
 
-            for (int coluna = 0; coluna < preTable[0].length; coluna++) { // Iterate over rows
+            for (int coluna = 0; coluna < preTable[0].length; coluna++) {
                 txt += "<tr>";
-                for (int linha = 0; linha < preTable.length; linha++) { // Iterate over columns
+                for (int linha = 0; linha < preTable.length; linha++) {
                     String dado = preTable[linha][coluna];
                     System.out.println(dado);
-                    if (dado == null || dado.equals("")) {
-                        txt+="<td>-</td>"; // Handle null or empty values
+                    if (dado == null || dado.equals("")) { // verifica se é null ou não
+                        txt+="<td>-</td>";
                     } else {
                         txt+="<td>"+dado+"</td>";
                     }
@@ -146,8 +146,6 @@ public class Admin extends HttpServlet {
 
 
                     veiculoJSON.put("Historico_Manutencao", manutencaoArray);
-
-
                     out.print(veiculoJSON.toString());
                 } else {
                     out.print("{\"erro\": \"Veículo não encontrado\"}");
@@ -172,22 +170,5 @@ public class Admin extends HttpServlet {
 
     }
 
-//    @Override
-//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//
-//        String query = req.getParameter("query");
-//        Connection dbConnection = new Connection();
-//        boolean result = dbConnection.executaQueryBool(query);
-//
-//
-//        if (result) {
-//
-//            resp.getWriter().write("Executou com sucesso");
-//            req.getRequestDispatcher("/administrador.jsp").forward(req, resp);
-//        } else {
-//
-//            resp.getWriter().write("Erro");
-//            req.getRequestDispatcher("/administrador.jsp").forward(req, resp);
-//        }
-//    }
+
 }

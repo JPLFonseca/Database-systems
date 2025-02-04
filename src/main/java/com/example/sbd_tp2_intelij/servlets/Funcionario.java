@@ -93,9 +93,9 @@ public class Funcionario extends HttpServlet {
                         "</tr>";
 
                 if (preTable != null && preTable.length > 0 && preTable[0].length > 0) {
-                    for (int coluna = 0; coluna < preTable[0].length; coluna++) { // Iterate over rows
+                    for (int coluna = 0; coluna < preTable[0].length; coluna++) {
                         txt += "<tr>";
-                        for (int linha = 0; linha < preTable.length; linha++) { // Iterate over columns
+                        for (int linha = 0; linha < preTable.length; linha++) {
                             String dado = preTable[linha][coluna];
                             System.out.println(dado);
                             txt += "<td style='border: 1px solid black; padding: 10px;'>" +

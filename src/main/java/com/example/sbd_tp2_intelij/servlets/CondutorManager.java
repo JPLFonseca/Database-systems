@@ -79,7 +79,7 @@ public class CondutorManager {
             moradaEntrega = resultEntrega.getString("Morada");
         }
 
-
+        // Fórmula de haversine para calcular as distâncias entre as coordenadas
         String queryParqueMaisPerto =
                 "SELECT P.Localidade, P.Morada, " +
                         "   (6371 * ACOS( " +
@@ -101,7 +101,7 @@ public class CondutorManager {
 
 
         String[][] array = new String[2][2];  // Agora temos duas colunas: Localidade e Morada
-        array[0][0] = (localidadeEntrega != null) ? localidadeEntrega : "-";
+        array[0][0] = (localidadeEntrega != null) ? localidadeEntrega : "-"; // operador ternário para verificar os dados
         array[0][1] = (moradaEntrega != null) ? moradaEntrega : "-";
         array[1][0] = (localidadeParque != null) ? localidadeParque : "-";
         array[1][1] = (moradaParque != null) ? moradaParque : "-";
