@@ -55,4 +55,30 @@ public class GerenteManager {
 
         return array;
     }
+
+    public static String[][] get3(Manipula dados) throws SQLException {
+        String query = "SELECT V.Marca, SUM(A.Custo_Final) AS Total_Lucro " +
+                "FROM Veiculo V " +
+                "JOIN Aluguer A ON V.Matricula = A.Matricula " +
+                "GROUP BY V.Marca " +
+                "ORDER BY Total_Lucro ASC " +
+                "LIMIT 3";
+
+        ResultSet result = dados.getResultado(query);
+
+        ArrayList<String> marcas = new ArrayList<>();
+        ArrayList<String> lucros = new ArrayList<>();
+
+        while (result.next()) {
+            marcas.add(result.getString("Marca"));
+            lucros.add(result.getString("Total_Lucro"));
+        }
+
+        String[][] array = {
+                marcas.toArray(new String[0]),
+                lucros.toArray(new String[0])
+        };
+
+        return array;
+    }
 }

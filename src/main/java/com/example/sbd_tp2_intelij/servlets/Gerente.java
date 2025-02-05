@@ -91,7 +91,31 @@ public class Gerente extends HttpServlet {
                 }
                 txt += "</table>";
             } else if (comando.equals("mLucro")) { // 3 marcas de veículos que geraram menos lucro
+                String[][] preTable = null;
+                try {preTable = GerenteManager.get3(dados);} catch (SQLException e) {e.printStackTrace();}
 
+                txt = "<h2>Top 3 Marcas com Menor Lucro</h2><br>" +
+                        "<table style='border-collapse: collapse; width: 50%; text-align: center;'>" +
+                        "<tr>" +
+                        "<th style='border: 1px solid black; padding: 8px; background-color: #f2f2f2;'>Marca</th>" +
+                        "<th style='border: 1px solid black; padding: 8px; background-color: #f2f2f2;'>Lucro Total (€)</th>" +
+                        "</tr>";
+
+                boolean hasData = false;
+                if (preTable != null && preTable.length > 0 && preTable[0].length > 0) {
+                    for (int coluna = 0; coluna < preTable[0].length; coluna++) {
+                        hasData = true;
+                        txt += "<tr>";
+                        txt += "<td style='border: 1px solid black; padding: 8px;'>" + preTable[0][coluna] + "</td>"; // Marca
+                        txt += "<td style='border: 1px solid black; padding: 8px;'>" + preTable[1][coluna] + " €</td>"; // Lucro Total
+                        txt += "</tr>";
+                    }
+                }
+                if (!hasData) {
+                    txt += "<tr><td colspan='2' style='border: 1px solid black; padding: 8px;'>Nenhum dado disponível</td></tr>";
+                }
+
+                txt += "</table>";
 
             } else if (comando.equals("mAvaliacao")) { // 5 modelos de veículos com melhor avaliação na semana passada
 
