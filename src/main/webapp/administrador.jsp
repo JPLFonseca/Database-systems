@@ -14,6 +14,7 @@
         <option value="A">Atualizar dados do cliente (pessoal)</option>
         <option value="B">Atualizar dados do cliente (empresa)</option>
         <option value="C">Mostrar dados de veículo</option>
+        <option value="D">Atualizar dados do veículo</option>
 
     </select>
     <button formnovalidate="formnovalidate" id="Executar" onclick="document.getElementById('Comando').value = document.getElementById('Operacao').value; getResultados()">Executar</button>
@@ -60,7 +61,43 @@
         <label for="reputacao">Reputacao:</label>
         <input type="text" id="reputacao" maxlength="3" placeholder="Valor entre 0 e 100"><br><br>
 
-        <input type="submit" id="Comando" value="Atualizar Cliente">
+
+        <h4>Zona do veículo</h4>
+
+        <label for="matriculaV">Matrícula:</label>
+        <input type="text" id="matriculaV" name="matricula" maxlength="6" required>
+        <br><br>
+
+
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" name="marca" maxlength="50" required>
+        <br><br>
+
+
+        <label for="modelo">Modelo:</label>
+        <input type="text" id="modelo" name="modelo" maxlength="50" required>
+        <br><br>
+
+
+        <label for="cor">Cor:</label>
+        <input type="text" id="cor" name="cor" maxlength="15" required>
+        <br><br>
+
+
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" name="tipo" required>
+            <option value="">Selecione um tipo</option>
+            <option value="Comercial">Comercial</option>
+            <option value="Familiar">Familiar</option>
+            <option value="Motociclo">Motociclo</option>
+            <option value="SUV">SUV</option>
+            <option value="Citadino">Citadino</option>
+            <option value="Elétrico">Elétrico</option>
+            <option value="Desportivo">Desportivo</option>
+        </select>
+        <br><br>
+
+        <input type="submit" id="Comando" value="...">
     </form>
 </div>
 
@@ -121,6 +158,12 @@
         } else if (operacao === "C") {
 
             document.getElementById("matricula").disabled = false;
+        } else if (operacao === "D"){
+            document.getElementById("matriculaV").disabled = false;
+            document.getElementById("cor").disabled = false;
+            document.getElementById("modelo").disabled = false;
+            document.getElementById("marca").disabled = false;
+            document.getElementById("tipo").disabled = false;
         }
 
 
@@ -142,13 +185,18 @@
         var dataValidade = document.getElementById("dataValidade").value;
         var reputacao = document.getElementById("reputacao").value;
         var matricula = document.getElementById("matricula").value;
+        var matriculaV = document.getElementById("matriculaV").value;
+        var marca = document.getElementById("marca").value;
+        var modelo = document.getElementById("modelo").value;
+        var tipo = document.getElementById("tipo").value;
+        var cor = document.getElementById("cor").value;
 
 
 
         var xhr = new XMLHttpRequest();
 
 
-        xhr.open("GET", "Admin?comando=" + encodeURIComponent(comando) + "&nomeCliente=" + encodeURIComponent(nomeCliente) + "&nomeCondutor=" + encodeURIComponent(nomeCondutor) + "&morada=" + encodeURIComponent(morada) + "&nif=" + encodeURIComponent(nif) + "&prefLinguistica=" + encodeURIComponent(prefLinguistica) + "&capSocial=" + encodeURIComponent(capSocial) + "&telemovel=" + encodeURIComponent(telemovel) + "&nCartaConducao=" + encodeURIComponent(nCartaConducao) + "&dataEmissao=" + encodeURIComponent(dataEmissao) + "&dataNascimento=" + encodeURIComponent(dataNascimento) + "&dataValidade=" + encodeURIComponent(dataValidade) + "&reputacao=" + encodeURIComponent(reputacao)+ "&matricula=" + encodeURIComponent(matricula), true);
+        xhr.open("GET", "Admin?comando=" + encodeURIComponent(comando) + "&nomeCliente=" + encodeURIComponent(nomeCliente) + "&nomeCondutor=" + encodeURIComponent(nomeCondutor) + "&morada=" + encodeURIComponent(morada) + "&nif=" + encodeURIComponent(nif) + "&prefLinguistica=" + encodeURIComponent(prefLinguistica) + "&capSocial=" + encodeURIComponent(capSocial) + "&telemovel=" + encodeURIComponent(telemovel) + "&nCartaConducao=" + encodeURIComponent(nCartaConducao) + "&dataEmissao=" + encodeURIComponent(dataEmissao) + "&dataNascimento=" + encodeURIComponent(dataNascimento) + "&dataValidade=" + encodeURIComponent(dataValidade) + "&reputacao=" + encodeURIComponent(reputacao)+ "&matricula=" + encodeURIComponent(matricula)+ "&matriculaV=" + encodeURIComponent(matriculaV)+ "&marca=" + encodeURIComponent(marca)+ "&modelo=" + encodeURIComponent(modelo)+ "&tipo=" + encodeURIComponent(tipo)+ "&cor=" + encodeURIComponent(cor), true);
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {

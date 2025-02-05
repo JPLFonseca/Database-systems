@@ -44,6 +44,11 @@ public class Admin extends HttpServlet {
         String dataNascimento = req.getParameter("dataNascimento");
         String reputacao = req.getParameter("reputacao");
         String matricula = req.getParameter("matricula");
+        String matriculaV = req.getParameter("matriculaV");
+        String marca = req.getParameter("marca");
+        String modelo = req.getParameter("modelo");
+        String tipo = req.getParameter("tipo");
+        String cor = req.getParameter("cor");
 
         String txt = "";
 
@@ -103,6 +108,7 @@ public class Admin extends HttpServlet {
             txt+="</table>";
 
         } else if(comando.equals("Exportar")){
+
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
             PrintWriter out = resp.getWriter();
@@ -155,6 +161,15 @@ public class Admin extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
                 out.print("{\"erro\": \"Erro a encontrar os dados\"}");
+            }
+        } else if(comando.equals("D")){
+
+            boolean action = AdminManager.gerirVeiculo(dados,matriculaV,marca,modelo,tipo,cor);
+
+            if(action){
+                txt+="<h1>Operação realizada com sucesso!</h1>";
+            }else{
+                txt+="<h1>Ocorreu um erro a realizar a operação</h1>";
             }
         }
             System.out.println(txt);

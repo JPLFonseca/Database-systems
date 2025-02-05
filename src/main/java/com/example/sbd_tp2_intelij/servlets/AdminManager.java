@@ -25,25 +25,26 @@ public class AdminManager {
         boolean k = dados.xDirectiva(pQuery);
 
 
-        String query = "INSERT INTO Cliente (NIF, Nome, Contacto, Morada, Preferencias_Linguisticas)"
-                + "VALUES('" + array[0] + "','" + array[1]+ "','" + array[2]+ "' ,'" + array[3]+ "','" + array[4]+ "')"
-                + "AS new ON DUPLICATE KEY UPDATE Nome = new.Nome, Contacto = new.Contacto,"
-                + "    Morada = new.Morada,"
-                + "    Preferencias_Linguisticas = new.Preferencias_Linguisticas;";
+        String query = "INSERT INTO Cliente (NIF, Nome, Contacto, Morada, Preferencias_Linguisticas) " +
+                "VALUES ('" + array[0] + "', '" + array[1] + "', '" + array[2] + "', '" + array[3] + "', '" + array[4] + "') " +
+                "ON DUPLICATE KEY UPDATE " +
+                "Nome = VALUES(Nome), " +
+                "Contacto = VALUES(Contacto), " +
+                "Morada = VALUES(Morada), " +
+                "Preferencias_Linguisticas = VALUES(Preferencias_Linguisticas)";
+
         boolean altera_dados = dados.xDirectiva(query);
 
-
-
-        String nQuery = "INSERT INTO Condutor(Numero_Carta,Nome,Data_Emissao_Carta,Data_Nascimento,Validade_Carta,Reputacao,NIF)"
-                + "VALUES('"+ array[5] + "','"+ array[1] + "','"+ array[6] + "','"+ array[7] + "','"
-                + array[8] + "','"+ array[9] + "','"+ array[0] + "') "
-                + "AS new ON DUPLICATE KEY UPDATE"
-                + "    Nome = new.Nome,"
-                + "    Data_Emissao_Carta = new.Data_Emissao_Carta,"
-                + "    Data_Nascimento = new.Data_Nascimento,"
-                + "    Validade_Carta = new.Validade_Carta,"
-                + "    Reputacao = new.Reputacao,"
-                + "    NIF = new.NIF;";
+        // Fixing SQL syntax for Condutor
+        String nQuery = "INSERT INTO Condutor (Numero_Carta, Nome, Data_Emissao_Carta, Data_Nascimento, Validade_Carta, Reputacao, NIF) " +
+                "VALUES ('" + array[5] + "', '" + array[1] + "', '" + array[6] + "', '" + array[7] + "', '" + array[8] + "', '" + array[9] + "', '" + array[0] + "') " +
+                "ON DUPLICATE KEY UPDATE " +
+                "Nome = VALUES(Nome), " +
+                "Data_Emissao_Carta = VALUES(Data_Emissao_Carta), " +
+                "Data_Nascimento = VALUES(Data_Nascimento), " +
+                "Validade_Carta = VALUES(Validade_Carta), " +
+                "Reputacao = VALUES(Reputacao), " +
+                "NIF = VALUES(NIF)";
 
         boolean altera_dados_2 = dados.xDirectiva(nQuery);
 
@@ -120,5 +121,26 @@ public class AdminManager {
     public static ResultSet getDataExport(Manipula dados,String query) throws SQLException {
 
         return dados.getResultado(query);
+    }
+
+    public static boolean gerirVeiculo(Manipula dados,String matricula, String marca, String modelo, String tipo, String cor)  {
+
+        if (matricula == null || marca == null || modelo == null || tipo == null || cor == null) {
+            System.out.println("Dados inválidos");
+            return false;
+        }
+
+
+        String query = "INSERT INTO Veiculo (Matricula, Marca, Modelo, Tipo, Cor, Media) " +
+                "VALUES ('" + matricula + "', '" + marca + "', '" + modelo + "', '" + tipo + "', '" + cor + "', NULL) " +
+                "ON DUPLICATE KEY UPDATE " +
+                "Marca = VALUES(Marca), " +
+                "Modelo = VALUES(Modelo), " +
+                "Tipo = VALUES(Tipo), " +
+                "Cor = VALUES(Cor);";
+
+        boolean result = dados.xDirectiva(query);
+
+        return result;
     }
 }

@@ -13,9 +13,9 @@ public class CondutorManager {
 
     public static String[][] levantarVeiculo(Manipula dados, String NIF) throws SQLException {
         String query = "SELECT A.Matricula, " +
-                "       P1.Localidade AS Recolha_Localidade, P1.Morada AS Recolha_Morada, " +
-                "       P2.Localidade AS Entrega_Localidade, P2.Morada AS Entrega_Morada, " +
-                "       A.Inicio, A.Fim, A.Custo_Final, A.Desconto " +
+                "P1.Localidade AS Recolha_Localidade, P1.Morada AS Recolha_Morada, " +
+                "P2.Localidade AS Entrega_Localidade, P2.Morada AS Entrega_Morada, " +
+                "A.Inicio, A.Fim, A.Custo_Final, A.Desconto " +
                 "FROM Aluguer A " +
                 "LEFT JOIN Parque_Estacionamento P1 ON A.Coordenadas_Recolha = P1.Coordenadas " +
                 "LEFT JOIN Parque_Estacionamento P2 ON A.Coordenadas_Entrega = P2.Coordenadas " +
@@ -82,11 +82,11 @@ public class CondutorManager {
         // Fórmula de haversine para calcular as distâncias entre as coordenadas
         String queryParqueMaisPerto =
                 "SELECT P.Localidade, P.Morada, " +
-                        "   (6371 * ACOS( " +
-                        "       COS(RADIANS(" + codaN + ")) * COS(RADIANS(SUBSTRING_INDEX(P.Coordenadas, ',', 1))) * " +
-                        "       COS(RADIANS(SUBSTRING_INDEX(P.Coordenadas, ',', -1)) - RADIANS(" + codaW + ")) + " +
-                        "       SIN(RADIANS(" + codaN + ")) * SIN(RADIANS(SUBSTRING_INDEX(P.Coordenadas, ',', 1))) " +
-                        "   )) AS Distancia_KM " +
+                        "(6371 * ACOS( " +
+                        "COS(RADIANS(" + codaN + ")) * COS(RADIANS(SUBSTRING_INDEX(P.Coordenadas, ',', 1))) * " +
+                        "COS(RADIANS(SUBSTRING_INDEX(P.Coordenadas, ',', -1)) - RADIANS(" + codaW + ")) + " +
+                        "SIN(RADIANS(" + codaN + ")) * SIN(RADIANS(SUBSTRING_INDEX(P.Coordenadas, ',', 1))) " +
+                        ")) AS Distancia_KM " +
                         "FROM Parque_Estacionamento P " +
                         "ORDER BY Distancia_KM ASC LIMIT 1;";
 
